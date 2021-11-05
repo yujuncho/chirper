@@ -1,0 +1,15 @@
+{
+  "name": "twitter-clone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch:local": "concurrently \"cd server && npm run watch:local\" \"cd client && npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^6.3.0"
+  }
+}
