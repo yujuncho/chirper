@@ -2,8 +2,8 @@ const userController = require("../controllers/userController");
 
 const userResolvers = {
   Query: {
-    users: () => {
-      return userController.getUsers();
+    users: (_, __, context) => {
+      return userController.getUsers(context);
     }
   },
 

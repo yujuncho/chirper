@@ -5,6 +5,7 @@ const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
 const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core");
 const { typeDefs, resolvers } = require("./graphql/schema");
+const authContext = require("./graphql/authContext");
 
 async function startMongoDB() {
   const server = process.env.SERVER || "localhost";
@@ -32,6 +33,7 @@ async function startApolloServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: authContext,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   });
 

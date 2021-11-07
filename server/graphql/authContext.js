@@ -1,35 +1,38 @@
-// TODO: Complete the authcontext
+const jwt = require("jsonwebtoken");
+const tokenSecret = process.env.JWT_SECRET || "local-secret";
+
 async function authContext({ req }) {
-  // AUTHORIZATION
-  let user;
+  try {
+    const authHeader = req.headers.authorization;
 
-  const header = req.headers.authorization || "";
-  const token = header.split(" ")[1];
+    if (!authHeader) {
+      throw new Error("Missing token");
+    }
 
-  if (token) {
-    const decodedUser = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const token = authHeader.split(" ")[1];
 
-    if (!decodedUser) throw new AuthenticationError("Invalid token");
+    if (!token) {
+      throw new Error("Invalid token format");
+    }
 
-    user = decodedUser;
+    const decodedToken = jwt.verify(token, tokenSecret);
+    if (!decodedToken) throw new Error("Invalid token");
+
+    return {
+      isAuth: true,
+      message: "",
+      user: {
+        userId: decodedToken.userId,
+        username: decodedToken.username
+      }
+    };
+  } catch (error) {
+    return {
+      isAuth: false,
+      message: error.message,
+      user: null
+    };
   }
-
-  // // not found
-  // if (!header) return { isAuth: false };
-
-  // // token
-  // const token: any = header.split(" ");
-
-  // // token not found
-  // if (!token) return { isAuth: false };
-
-  // let decodeToken: any;
-
-  // try {
-  //   decodeToken = jwt.verify(token[1], privateKey);
-  // } catch (err) {
-  //   return { isAuth: false };
-  // }
-
-  return { loggedUser };
 }
+
+module.exports = authContext;

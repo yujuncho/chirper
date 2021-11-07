@@ -1,10 +1,15 @@
+const { AuthenticationError } = require("apollo-server-express");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const tokenSecret = process.env.JWT_SECRET || "local-secret";
 
-async function getUsers() {
+async function getUsers(context) {
+  if (!context.isAuth) {
+    throw new AuthenticationError(context.message);
+  }
+
   const users = await User.find({});
   return users;
 }
