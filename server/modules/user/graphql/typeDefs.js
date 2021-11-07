@@ -13,13 +13,19 @@ const userTypeDefs = gql`
   }
 
   extend type Mutation {
-    createUser(username: String!, password: String!): AddUserResponse!
+    createUser(username: String!, password: String!): UserResponse!
+    loginUser(username: String!, password: String!): UserResponse!
   }
 
-  type AddUserResponse {
+  type UserResponse {
     code: Int!
     success: Boolean!
     message: String!
+    data: UserPayload
+  }
+
+  type UserPayload {
+    token: String!
     user: User
   }
 `;

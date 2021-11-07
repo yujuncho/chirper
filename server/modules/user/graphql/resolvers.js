@@ -10,6 +10,9 @@ const userResolvers = {
   Mutation: {
     createUser: (_, user) => {
       return userController.createUser(user);
+    },
+    loginUser: (_, user) => {
+      return userController.loginUser(user);
     }
   }
 };
