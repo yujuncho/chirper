@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Types, Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
   username: {
@@ -13,7 +13,13 @@ const userSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  tweets: [
+    {
+      type: Types.ObjectId,
+      ref: "tweet"
+    }
+  ]
 });
 
 const User = model("user", userSchema);

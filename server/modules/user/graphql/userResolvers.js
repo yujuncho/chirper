@@ -6,13 +6,12 @@ const userResolvers = {
       return userController.getUsers(context);
     }
   },
-
   Mutation: {
-    createUser: (_, user) => {
-      return userController.createUser(user);
+    createUser: (_, { username, password }) => {
+      return userController.createUser(username, password);
     },
-    loginUser: (_, user) => {
-      return userController.loginUser(user);
+    loginUser: (_, { username, password }) => {
+      return userController.loginUser(username, password);
     }
   }
 };

@@ -14,7 +14,7 @@ async function getUsers(context) {
   return users;
 }
 
-async function createUser({ username, password }) {
+async function createUser(username, password) {
   try {
     let existingUser = await User.findOne({ username });
 
@@ -57,7 +57,7 @@ async function createUser({ username, password }) {
   }
 }
 
-async function loginUser({ username, password }) {
+async function loginUser(username, password) {
   try {
     let user = (await User.findOne({ username })) || { password: "" };
     const isValidPassword = await bcrypt.compare(password, user.password);

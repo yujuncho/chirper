@@ -2,7 +2,7 @@ const { gql } = require("apollo-server-express");
 
 const userTypeDefs = gql`
   extend type Query {
-    users: [User]!
+    users: [User!]!
   }
 
   type User {
@@ -10,6 +10,7 @@ const userTypeDefs = gql`
     username: String!
     password: String!
     createdAt: Date!
+    tweets: [Tweet!]!
   }
 
   extend type Mutation {
