@@ -11,6 +11,12 @@ const tweetResolvers = {
     author: ({ author }) => {
       return userController.getUser(author);
     },
+    retweetTweet: ({ retweetTweet: tweetId }) => {
+      return tweetController.getTweet(tweetId);
+    },
+    retweets: ({ _id: tweetId }) => {
+      return tweetController.getRetweets(tweetId);
+    },
     inReplyToTweet: ({ inReplyToTweet: tweetId }) => {
       return tweetController.getTweet(tweetId);
     },

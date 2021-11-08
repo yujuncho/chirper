@@ -52,7 +52,7 @@ async function startApolloServer() {
 
 async function setupServer() {
   await startMongoDB();
-  await startApolloServer(typeDefs, resolvers);
+  await startApolloServer();
 }
 
 setupServer();

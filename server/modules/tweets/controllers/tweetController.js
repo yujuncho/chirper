@@ -22,6 +22,11 @@ async function getTweetsByUserId(userId) {
   return tweets;
 }
 
+async function getRetweets(tweetId) {
+  const tweets = await Tweet.find({ retweetTweet: tweetId });
+  return tweets;
+}
+
 async function getReplies(tweetId) {
   const tweets = await Tweet.find({ inReplyToTweet: tweetId });
   return tweets;
@@ -75,12 +80,50 @@ async function retweet(tweetId, context) {
     }
 
     let user = await User.findById(context.user.userId);
+    let retweetTweet = await Tweet.findById(tweetId);
+
+    if (!retweetTweet) {
+      return {
+        code: 404,
+        success: false,
+        message: "Tweet to retweet not found",
+        tweet: null
+      };
+    }
+
+    let existingRetweet = await Tweet.find({
+      author: user.id,
+      retweetTweet: retweetTweet.id
+    });
+    if (existingRetweet.length > 0) {
+      return {
+        code: 409,
+        success: false,
+        message: "This tweet has already been retweeted!",
+        tweet: existingRetweet[0]
+      };
+    }
+
+    let newRetweet = new Tweet({
+      author: user.id,
+      retweetTweet: retweetTweet.id
+    });
+
+    user.tweets.push(newRetweet.id);
+    retweetTweet.retweets.push(newRetweet.id);
+
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newRetweet.save();
+    await user.save();
+    await retweetTweet.save();
+    sess.commitTransaction();
 
     return {
       code: 201,
       success: true,
       message: "Retweeted!",
-      tweet: null
+      tweet: newRetweet
     };
   } catch (error) {
     let code = 500;
@@ -104,6 +147,15 @@ async function replyToTweet(tweetId, replyText, context) {
 
     let user = await User.findById(context.user.userId);
     let inReplyToTweet = await Tweet.findById(tweetId);
+
+    if (!inReplyToTweet) {
+      return {
+        code: 404,
+        success: false,
+        message: "Tweet to reply to not found",
+        tweet: null
+      };
+    }
 
     let newTweet = new Tweet({
       text: replyText,
@@ -145,6 +197,7 @@ const tweetController = {
   getTweet,
   getTweets,
   getTweetsByUserId,
+  getRetweets,
   getReplies,
   createTweet,
   retweet,

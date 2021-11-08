@@ -14,10 +14,11 @@ const tweetSchema = new Schema({
     ref: "user",
     req: true
   },
-  retweetedBy: {
+  retweetTweet: {
     type: Types.ObjectId,
-    ref: "user"
+    ref: "tweet"
   },
+  retweets: [this],
   inReplyToTweet: {
     type: Types.ObjectId,
     ref: "tweet"

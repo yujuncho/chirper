@@ -10,8 +10,8 @@ const tweetTypeDefs = gql`
     text: String
     createdAt: Date!
     author: User!
-    retweetedBy: User
-    inReplyToAuthor: User
+    retweetTweet: Tweet
+    retweets: [Tweet!]!
     inReplyToTweet: Tweet
     replies: [Tweet!]!
   }

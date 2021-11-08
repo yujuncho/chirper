@@ -11,6 +11,10 @@ async function getUser(userId) {
 }
 
 async function getUsers(context) {
+  if (!context.isAuth) {
+    throw new AuthenticationError(context.message);
+  }
+
   const users = await User.find({});
   return users;
 }
