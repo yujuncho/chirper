@@ -9,12 +9,17 @@ const userTypeDefs = gql`
     _id: ID!
     username: String!
     password: String!
+    name: String!
     createdAt: Date!
     tweets: [Tweet!]!
   }
 
   extend type Mutation {
-    createUser(username: String!, password: String!): UserResponse!
+    createUser(
+      username: String!
+      password: String!
+      name: String!
+    ): UserResponse!
     loginUser(username: String!, password: String!): UserResponse!
   }
 
