@@ -18,11 +18,10 @@ const tweetSchema = new Schema({
     type: Types.ObjectId,
     ref: "user"
   },
-  inReplyToAuthor: {
+  inReplyToTweet: {
     type: Types.ObjectId,
-    ref: "user"
+    ref: "tweet"
   },
-  inReplyToTweet: this,
   replies: [this]
 });
 

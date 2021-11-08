@@ -1,9 +1,21 @@
+const userController = require("../../user/controllers/userController");
 const tweetController = require("../controllers/tweetController");
 
 const tweetResolvers = {
   Query: {
     tweets: (_, __, context) => {
       return tweetController.getTweets(context);
+    }
+  },
+  Tweet: {
+    author: ({ author }) => {
+      return userController.getUser(author);
+    },
+    inReplyToTweet: ({ inReplyToTweet: tweetId }) => {
+      return tweetController.getTweet(tweetId);
+    },
+    replies: ({ _id: tweetId }) => {
+      return tweetController.getReplies(tweetId);
     }
   },
   Mutation: {

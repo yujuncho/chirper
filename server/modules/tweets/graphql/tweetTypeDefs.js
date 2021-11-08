@@ -7,6 +7,7 @@ const tweetTypeDefs = gql`
 
   type Tweet {
     _id: ID!
+    text: String
     createdAt: Date!
     author: User!
     retweetedBy: User

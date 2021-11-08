@@ -5,11 +5,12 @@ const jwt = require("jsonwebtoken");
 
 const tokenSecret = process.env.JWT_SECRET || "local-secret";
 
-async function getUsers(context) {
-  if (!context.isAuth) {
-    throw new AuthenticationError(context.message);
-  }
+async function getUser(userId) {
+  const user = await User.findById(userId);
+  return user;
+}
 
+async function getUsers(context) {
   const users = await User.find({});
   return users;
 }
@@ -96,6 +97,7 @@ async function loginUser(username, password) {
 }
 
 const userController = {
+  getUser,
   getUsers,
   createUser,
   loginUser
