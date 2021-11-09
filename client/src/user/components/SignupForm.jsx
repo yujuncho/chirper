@@ -1,40 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { useNavigate } from "react-router";
 
-import useUser from "../../hooks/useUser";
-import useAuth from "../../hooks/useAuth";
+import useUser from "../../shared/hooks/useUser";
 
-export default function LoginForm() {
+export default function SignupForm() {
   const [formState, setFormState] = useState({
     username: "",
-    password: ""
+    password: "",
+    name: ""
   });
-  const { username, password } = formState;
+  const { username, password, name } = formState;
   const User = useUser();
-  const [loginUser, { loading, error, data }] = useMutation(
-    User.mutation.LOGIN_USER,
+  const [createUser, { loading, error }] = useMutation(
+    User.mutation.CREATE_USER,
     {
-      variables: { username, password }
+      variables: { username, password, name }
     }
   );
-  const navigate = useNavigate();
-  const { authContext } = useAuth();
-
-  useEffect(() => {
-    console.log(data);
-    if (data && data.success && authContext.user === null) {
-      const token = data.loginUser.data.token;
-      const user = data.loginUser.data.user;
-      console.log(token, user);
-      authContext.signin({ ...user, token });
-      navigate("/home");
-    }
-  }, [error, data, authContext, navigate]);
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    loginUser();
+    // createUser();
   };
 
   const handleInputChange = event => {
@@ -60,6 +46,14 @@ export default function LoginForm() {
       <div>
         <input
           type="text"
+          name="name"
+          value={name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <input
+          type="text"
           name="username"
           value={username}
           onChange={handleInputChange}
@@ -73,7 +67,7 @@ export default function LoginForm() {
           onChange={handleInputChange}
         />
       </div>
-      <button type="submit">Sign in</button>
+      <button type="submit">Sign up</button>
     </form>
   );
 }

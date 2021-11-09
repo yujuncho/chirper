@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 
-import useApolloClient from "./hooks/useApolloClient";
-import useAuth from "./hooks/useAuth";
+import useApolloClient from "./shared/hooks/useApolloClient";
+import useAuth from "./shared/hooks/useAuth";
+import RequireAuth from "./shared/containers/RequireAuth";
+import RedirectUser from "./shared/containers/RedirectUser";
 
-import Auth from "./pages/Auth/";
-import Home from "./pages/Home";
+import Auth from "./user/pages/Auth";
+import Home from "./tweets/pages/Home";
 
 function App() {
   const client = useApolloClient();
@@ -16,8 +18,22 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Auth />} />
-            <Route path="/home" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                <RedirectUser>
+                  <Auth />
+                </RedirectUser>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
             <Route
               path="*"
               element={

@@ -1,25 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import useUser from "../../hooks/useUser";
 
-export default function SignupForm() {
+import useUser from "../../shared/hooks/useUser";
+
+export default function LoginForm(props) {
+  const { onSubmit } = props;
   const [formState, setFormState] = useState({
     username: "",
-    password: "",
-    name: ""
+    password: ""
   });
-  const { username, password, name } = formState;
+  const { username, password } = formState;
   const User = useUser();
-  const [createUser, { loading, error }] = useMutation(
-    User.mutation.CREATE_USER,
+  const [loginUser, { loading, error, data }] = useMutation(
+    User.mutation.LOGIN_USER,
     {
-      variables: { username, password, name }
+      variables: { username, password }
     }
   );
 
+  useEffect(() => {
+    if (data && data.loginUser.success) {
+      const token = data.loginUser.data.token;
+      const user = data.loginUser.data.user;
+      onSubmit({ ...user, token });
+    }
+  }, [error, data, onSubmit]);
+
   const handleOnSubmit = event => {
     event.preventDefault();
-    // createUser();
+    loginUser();
   };
 
   const handleInputChange = event => {
@@ -32,24 +41,8 @@ export default function SignupForm() {
     });
   };
 
-  if (loading) {
-    return <div>Loading!</div>;
-  }
-
-  if (error) {
-    return <div>error.message</div>;
-  }
-
   return (
     <form onSubmit={handleOnSubmit}>
-      <div>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleInputChange}
-        />
-      </div>
       <div>
         <input
           type="text"
@@ -66,7 +59,11 @@ export default function SignupForm() {
           onChange={handleInputChange}
         />
       </div>
-      <button type="submit">Sign up</button>
+      <div>
+        {data && !data.loginUser.success && data.loginUser.message}
+        {error && error.message}
+      </div>
+      <button type="submit">{loading ? "Loading!" : "Sign in"}</button>
     </form>
   );
 }
