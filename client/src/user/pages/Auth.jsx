@@ -18,7 +18,7 @@ export default function Auth() {
 
   const handleOnSubmit = user => {
     authContext.signin(user);
-    navigate(from, { replace: true });
+    navigate(from, { replace: true, state: { authType: null } });
   };
 
   const handleChangeAuthType = event => {
@@ -34,7 +34,7 @@ export default function Auth() {
 
   let primaryHeader = "Happening in the future";
   let secondaryHeader = "Join Chirper tomorrow";
-  let form = <SignupForm />;
+  let form = <SignupForm onSubmit={handleOnSubmit} />;
   let changeAuthTypeHelperText = "Already have an account?";
   let changeAuthTypeBtnText = "Sign in";
 

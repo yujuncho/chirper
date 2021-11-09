@@ -5,16 +5,16 @@ import useUser from "../../shared/hooks/useUser";
 
 export default function LoginForm(props) {
   const { onSubmit } = props;
-  const [formState, setFormState] = useState({
+  const [formData, setFormData] = useState({
     username: "",
     password: ""
   });
-  const { username, password } = formState;
+  const { username, password } = formData;
   const User = useUser();
   const [loginUser, { loading, error, data }] = useMutation(
     User.mutation.LOGIN_USER,
     {
-      variables: { username, password }
+      variables: formData
     }
   );
 
@@ -34,7 +34,7 @@ export default function LoginForm(props) {
   const handleInputChange = event => {
     let name = event.target.name;
     let value = event.target.value;
-    setFormState(prevState => {
+    setFormData(prevState => {
       const newState = { ...prevState };
       newState[name] = value;
       return newState;
@@ -44,19 +44,23 @@ export default function LoginForm(props) {
   return (
     <form onSubmit={handleOnSubmit}>
       <div>
+        <label htmlFor="username">Username</label>
         <input
           type="text"
           name="username"
           value={username}
           onChange={handleInputChange}
+          required
         />
       </div>
       <div>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
           value={password}
           onChange={handleInputChange}
+          required
         />
       </div>
       <div>
