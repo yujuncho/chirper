@@ -7,11 +7,16 @@ export default function useApolloClient() {
   });
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem("token");
+    const storedUserData = localStorage.getItem("user");
+    let authorization = "";
+    if (storedUserData) {
+      const user = JSON.parse(storedUserData);
+      authorization = `Bearer ${user.token}`;
+    }
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : ""
+        authorization
       }
     };
   });

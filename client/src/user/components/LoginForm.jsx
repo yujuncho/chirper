@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 
-import useUser from "../../shared/hooks/useUser";
+import userMutation from "../data/userMutation";
 
 export default function LoginForm(props) {
   const { onSubmit } = props;
@@ -10,9 +10,8 @@ export default function LoginForm(props) {
     password: ""
   });
   const { username, password } = formData;
-  const User = useUser();
   const [loginUser, { loading, error, data }] = useMutation(
-    User.mutation.LOGIN_USER,
+    userMutation.LOGIN_USER,
     {
       variables: formData
     }

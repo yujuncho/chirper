@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 
-import useUser from "../../shared/hooks/useUser";
+import userMutation from "../data/userMutation";
 
 export default function SignupForm(props) {
   const { onSubmit } = props;
@@ -11,9 +11,8 @@ export default function SignupForm(props) {
     name: ""
   });
   const { username, password, name } = formData;
-  const User = useUser();
   const [createUser, { loading, error, data }] = useMutation(
-    User.mutation.CREATE_USER,
+    userMutation.CREATE_USER,
     {
       variables: formData
     }

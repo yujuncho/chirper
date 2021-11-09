@@ -11,6 +11,7 @@ const CREATE_USER = gql`
         user {
           _id
           username
+          name
         }
       }
     }
@@ -28,17 +29,16 @@ const LOGIN_USER = gql`
         user {
           _id
           username
+          name
         }
       }
     }
   }
 `;
 
-export default function useUser() {
-  return {
-    mutation: {
-      CREATE_USER,
-      LOGIN_USER
-    }
-  };
-}
+const userMutation = {
+  CREATE_USER,
+  LOGIN_USER
+};
+
+export default userMutation;
