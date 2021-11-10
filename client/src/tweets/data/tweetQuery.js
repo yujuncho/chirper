@@ -7,22 +7,40 @@ const GET_TWEETS = gql`
       text
       createdAt
       author {
+        _id
         username
         name
+      }
+      retweets {
+        author {
+          _id
+          username
+          name
+        }
       }
       retweetTweet {
         _id
         text
         createdAt
         author {
+          _id
           username
           name
+        }
+        retweets {
+          author {
+            _id
+            username
+            name
+          }
         }
       }
       inReplyToTweet {
         _id
         author {
+          _id
           username
+          name
         }
       }
     }

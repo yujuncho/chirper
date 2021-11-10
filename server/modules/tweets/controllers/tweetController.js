@@ -96,7 +96,7 @@ async function retweet(tweetId, context) {
         code: 409,
         success: false,
         message: "This tweet has already been retweeted!",
-        tweet: existingRetweet[0]
+        tweet: null
       };
     }
 

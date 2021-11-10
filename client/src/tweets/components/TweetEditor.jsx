@@ -1,46 +1,36 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
-import { useMutation } from "@apollo/client";
 
-import tweetMutation from "../data/tweetMutation";
+import useSaveTweet from "../hooks/useSaveTweet";
 
 const TweetInput = styled.div`
   background: black;
   color: white;
 `;
 
-export default function TweetEditor() {
+export default function TweetEditor(props) {
+  const { inReplyToTweet, onSave } = props;
+
   const inputRef = useRef();
   const [text, setText] = useState("");
-  const [createTweet, { loading, error, data }] = useMutation(
-    tweetMutation.CREATE_TWEET,
-    {
-      variables: { text },
-      update: (cache, { data: { createTweet } }) => {
-        const newTweet = createTweet.tweet;
-        if (newTweet) {
-          cache.modify({
-            fields: {
-              tweets(existingTweets = []) {
-                return [newTweet, ...existingTweets];
-              }
-            }
-          });
-        }
-      }
-    }
-  );
 
-  useEffect(() => {
-    if (data && data.createTweet.success) {
+  const [saveTweet, { loading, error, data }] = useSaveTweet({
+    text,
+    inReplyToTweet,
+    onComplete: () => {
       inputRef.current.innerText = "";
-      console.log(inputRef.current.innerText);
       setText("");
+      onSave && onSave();
     }
-  }, [data]);
+  });
 
-  const handleClick = () => {
-    createTweet();
+  let saveTweetData = null;
+  if (data) {
+    saveTweetData = inReplyToTweet ? data.replyToTweet : data.createTweet;
+  }
+
+  const handleSave = () => {
+    saveTweet();
   };
 
   const handleChange = event => {
@@ -59,10 +49,10 @@ export default function TweetEditor() {
         />
       </div>
       <div>
-        {data && !data.loginUser.success && data.loginUser.message}
+        {saveTweetData && !saveTweetData.success && saveTweetData.message}
         {error && error.message}
       </div>
-      <button onClick={handleClick}>{loading ? "Loading!" : "Tweet"}</button>
+      <button onClick={handleSave}>{loading ? "Loading!" : "Tweet"}</button>
     </div>
   );
 }

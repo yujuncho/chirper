@@ -18,7 +18,7 @@ export default function Timeline() {
           <Tweet
             key={tweet._id}
             tweet={tweet.retweetTweet}
-            retweet={true}
+            isRetweet={true}
             retweetAuthor={tweet.author.name}
           />
         );
