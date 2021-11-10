@@ -26,7 +26,7 @@ function AuthProvider({ children }) {
 
   let signout = () => {
     setUser(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   let value = { user, signin, signout, checkingStorage };

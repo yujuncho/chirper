@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ApolloProvider } from "@apollo/client";
 
-import useApolloClient from "./shared/hooks/useApolloClient";
+import ConfiguredApolloProvider from "./shared/containers/ConfiguredApolloProvider";
 import useAuth from "./shared/hooks/useAuth";
 import RequireAuth from "./shared/containers/RequireAuth";
 import RedirectUser from "./shared/containers/RedirectUser";
@@ -10,12 +9,11 @@ import Auth from "./user/pages/Auth";
 import Home from "./tweets/pages/Home";
 
 function App() {
-  const client = useApolloClient();
   const { AuthProvider } = useAuth();
 
   return (
-    <ApolloProvider client={client}>
-      <AuthProvider>
+    <AuthProvider>
+      <ConfiguredApolloProvider>
         <BrowserRouter>
           <Routes>
             <Route
@@ -44,8 +42,8 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
-      </AuthProvider>
-    </ApolloProvider>
+      </ConfiguredApolloProvider>
+    </AuthProvider>
   );
 }
 

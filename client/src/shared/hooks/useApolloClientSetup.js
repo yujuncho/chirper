@@ -1,7 +1,16 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  createHttpLink,
+  InMemoryCache
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 
-export default function useApolloClient() {
+import useAuth from "./useAuth";
+
+export default function useApolloClientSetup() {
+  const { authContext } = useAuth();
   const httpLink = createHttpLink({
     uri: "/graphql"
   });
@@ -21,8 +30,18 @@ export default function useApolloClient() {
     };
   });
 
+  const errorLink = onError(({ graphQLErrors }) => {
+    if (graphQLErrors[0].extensions.code === "UNAUTHENTICATED") {
+      authContext.signout();
+      client.clearStore();
+    }
+  });
+
+  let links = [errorLink, authLink, httpLink];
+  const link = ApolloLink.from(links);
+
   const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link,
     cache: new InMemoryCache()
   });
 

@@ -13,7 +13,7 @@ async function getTweets(context) {
     throw new AuthenticationError(context.message);
   }
 
-  const tweets = await Tweet.find({});
+  const tweets = await Tweet.find({}).sort({ createdAt: -1 });
   return tweets;
 }
 
@@ -33,11 +33,11 @@ async function getReplies(tweetId) {
 }
 
 async function createTweet(text, context) {
-  try {
-    if (!context.isAuth) {
-      throw new AuthenticationError(context.message);
-    }
+  if (!context.isAuth) {
+    throw new AuthenticationError(context.message);
+  }
 
+  try {
     let user = await User.findById(context.user.userId);
 
     let newTweet = new Tweet({
@@ -60,12 +60,8 @@ async function createTweet(text, context) {
       tweet: newTweet
     };
   } catch (error) {
-    let code = 500;
-    if (error.extensions) {
-      code = error.extensions.code === "UNAUTHENTICATED" && 422;
-    }
     return {
-      code,
+      code: 500,
       success: false,
       message: error.message,
       tweet: null
@@ -74,11 +70,11 @@ async function createTweet(text, context) {
 }
 
 async function retweet(tweetId, context) {
-  try {
-    if (!context.isAuth) {
-      throw new AuthenticationError(context.message);
-    }
+  if (!context.isAuth) {
+    throw new AuthenticationError(context.message);
+  }
 
+  try {
     let user = await User.findById(context.user.userId);
     let retweetTweet = await Tweet.findById(tweetId);
 
@@ -126,12 +122,8 @@ async function retweet(tweetId, context) {
       tweet: newRetweet
     };
   } catch (error) {
-    let code = 500;
-    if (error.extensions) {
-      code = error.extensions.code === "UNAUTHENTICATED" && 422;
-    }
     return {
-      code,
+      code: 500,
       success: false,
       message: error.message,
       tweet: null
@@ -140,11 +132,11 @@ async function retweet(tweetId, context) {
 }
 
 async function replyToTweet(tweetId, replyText, context) {
-  try {
-    if (!context.isAuth) {
-      throw new AuthenticationError(context.message);
-    }
+  if (!context.isAuth) {
+    throw new AuthenticationError(context.message);
+  }
 
+  try {
     let user = await User.findById(context.user.userId);
     let inReplyToTweet = await Tweet.findById(tweetId);
 
@@ -180,12 +172,8 @@ async function replyToTweet(tweetId, replyText, context) {
       tweet: newTweet
     };
   } catch (error) {
-    let code = 500;
-    if (error.extensions) {
-      code = error.extensions.code === "UNAUTHENTICATED" && 422;
-    }
     return {
-      code,
+      code: 500,
       success: false,
       message: error.message,
       tweet: null
