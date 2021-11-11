@@ -1,5 +1,10 @@
+import { MdRepeat } from "react-icons/md";
+
 import useAuth from "../../shared/hooks/useAuth";
 import useRetweet from "../hooks/useRetweet";
+
+import { colorKeys } from "../../shared/data/colors";
+import ButtonIcon from "../../shared/components/ui/ButtonIcon";
 
 export default function RetweetButton(props) {
   const { tweet } = props;
@@ -15,8 +20,16 @@ export default function RetweetButton(props) {
   });
 
   return (
-    <button onClick={handleRetweet} disabled={!!isDisabled}>
-      Retweet
-    </button>
+    <ButtonIcon
+      onClick={handleRetweet}
+      disabled={!!isDisabled}
+      title="Retweet"
+      hover={{
+        color: colorKeys.SUCCESS,
+        background: colorKeys.SUCCESS_OPAQUE
+      }}
+    >
+      <MdRepeat />
+    </ButtonIcon>
   );
 }

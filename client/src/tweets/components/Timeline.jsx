@@ -2,6 +2,9 @@ import { useQuery } from "@apollo/client";
 import tweetQuery from "../data/tweetQuery";
 import Tweet from "./Tweet";
 
+import CardList from "../../shared/components/layout/CardList";
+import Card from "../../shared/components/layout/Card";
+
 export default function Timeline() {
   const { loading, error, data } = useQuery(tweetQuery.GET_TWEETS);
 
@@ -12,19 +15,24 @@ export default function Timeline() {
   if (data) {
     tweetList = data.tweets.map(tweet => {
       if (tweet.text !== null) {
-        return <Tweet key={tweet._id} tweet={tweet} />;
+        return (
+          <Card key={tweet._id}>
+            <Tweet tweet={tweet} />
+          </Card>
+        );
       } else {
         return (
-          <Tweet
-            key={tweet._id}
-            tweet={tweet.retweetTweet}
-            isRetweet={true}
-            retweetAuthor={tweet.author.name}
-          />
+          <Card key={tweet._id}>
+            <Tweet
+              tweet={tweet.retweetTweet}
+              isRetweet={true}
+              retweetAuthor={tweet.author.name}
+            />
+          </Card>
         );
       }
     });
   }
 
-  return <div>{tweetList}</div>;
+  return <CardList>{tweetList}</CardList>;
 }
