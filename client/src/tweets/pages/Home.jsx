@@ -7,6 +7,7 @@ import TweetEditor from "../components/TweetEditor";
 
 import Card from "../../shared/components/layout/Card";
 import Nav from "../../shared/components/layout/Nav";
+import Button from "../../shared/components/ui/Button";
 
 const HomeContainer = styled.div`
   max-width: 600px;
@@ -26,7 +27,9 @@ export default function Home() {
     <HomeContainer>
       <Nav>
         <h1>Home</h1>
-        <button onClick={signoutHandler}>Sign Out</button>
+        <Button onClick={signoutHandler} small={true}>
+          Sign Out
+        </Button>
       </Nav>
       <Card>
         <TweetEditor />

@@ -4,7 +4,10 @@ import styled from "styled-components";
 
 import TweetComposer from "./TweetComposer";
 import RetweetButton from "./RetweetButton";
+import RetweetInfo from "./RetweetInfo";
+import ProfileImage from "./ProfileImage";
 
+import FlexContainer from "../../shared/components/layout/FlexContainer";
 import ButtonIcon from "../../shared/components/ui/ButtonIcon";
 import colors, { colorKeys } from "../../shared/data/colors";
 
@@ -24,11 +27,6 @@ const TweetBody = styled.div`
   & > div {
     margin-top: 0.1rem;
   }
-`;
-
-const RetweetAuthor = styled.div`
-  font-size: 0.9rem;
-  opacity: 60%;
 `;
 
 const ReplyInfo = styled.div`
@@ -73,36 +71,41 @@ export default function Tweet(props) {
           onClick={closeTweetReplier}
         />
       )}
-      {isRetweet && <RetweetAuthor>{retweetAuthor} Retweeted</RetweetAuthor>}
-      <TweetAuthorContainer>
-        <TweetAuthorItem name="true">{tweet.author.name}</TweetAuthorItem>
-        <TweetAuthorItem>@{tweet.author.username}</TweetAuthorItem>
-        <TweetAuthorItem>&#183;</TweetAuthorItem>
-        <TweetAuthorItem>{createdAt}</TweetAuthorItem>
-      </TweetAuthorContainer>
-      <TweetBody replyingToTweet={replyingToTweet}>
-        {tweet.inReplyToTweet && (
-          <ReplyInfo replyingToTweet={replyingToTweet}>
-            Replying to <span>@{tweet.inReplyToTweet.author.username}</span>
-          </ReplyInfo>
-        )}
-        <div>{tweet.text}</div>
-      </TweetBody>
-      {!replyingToTweet && (
-        <TweetActions>
-          <ButtonIcon
-            onClick={handleReply}
-            title="Reply"
-            hover={{
-              color: colorKeys.PRIMARY,
-              background: colorKeys.PRIMARY_OPAQUE
-            }}
-          >
-            <BsChat />
-          </ButtonIcon>
-          <RetweetButton tweet={tweet} />
-        </TweetActions>
-      )}
+      {isRetweet && <RetweetInfo retweetAuthor={retweetAuthor} />}
+      <FlexContainer>
+        <ProfileImage />
+        <div style={{ flex: "1" }}>
+          <TweetAuthorContainer>
+            <TweetAuthorItem name="true">{tweet.author.name}</TweetAuthorItem>
+            <TweetAuthorItem>@{tweet.author.username}</TweetAuthorItem>
+            <TweetAuthorItem>&#183;</TweetAuthorItem>
+            <TweetAuthorItem>{createdAt}</TweetAuthorItem>
+          </TweetAuthorContainer>
+          <TweetBody replyingToTweet={replyingToTweet}>
+            {tweet.inReplyToTweet && (
+              <ReplyInfo replyingToTweet={replyingToTweet}>
+                Replying to <span>@{tweet.inReplyToTweet.author.username}</span>
+              </ReplyInfo>
+            )}
+            <div>{tweet.text}</div>
+          </TweetBody>
+          {!replyingToTweet && (
+            <TweetActions>
+              <ButtonIcon
+                onClick={handleReply}
+                title="Reply"
+                hover={{
+                  color: colorKeys.PRIMARY,
+                  background: colorKeys.PRIMARY_OPAQUE
+                }}
+              >
+                <BsChat />
+              </ButtonIcon>
+              <RetweetButton tweet={tweet} />
+            </TweetActions>
+          )}
+        </div>
+      </FlexContainer>
     </Fragment>
   );
 }

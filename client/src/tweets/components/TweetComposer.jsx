@@ -12,9 +12,6 @@ import TweetEditor from "./TweetEditor";
 const TweetComposerEditorContainer = styled.div`
   margin-top: 2rem;
   min-height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 export default function TweetComposer(props) {

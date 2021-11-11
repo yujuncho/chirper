@@ -1,11 +1,13 @@
-import { Fragment, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 import useSaveTweet from "../hooks/useSaveTweet";
 
+import ProfileImage from "./ProfileImage";
 import Button from "../../shared/components/ui/Button";
 
 const TweetInputContainer = styled.div`
+  margin-top: 0.5rem;
   font-size: 1.25rem;
 `;
 
@@ -22,9 +24,21 @@ const TweetInputPlaceholder = styled.div`
 `;
 
 const TweetButtonContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: flex-end;
+`;
+
+const TweetEditorContainer = styled.div`
+  display: flex;
+  min-height: ${props => (props.isReply ? "150px" : "")};
+`;
+
+const TweetInputAndActionsContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export default function TweetEditor(props) {
@@ -59,28 +73,31 @@ export default function TweetEditor(props) {
   };
 
   return (
-    <Fragment>
-      <TweetInputContainer>
-        <TweetInputPlaceholder>
-          {text.length > 0 ? "" : "What's happening?"}
-        </TweetInputPlaceholder>
-        <TweetInput
-          ref={inputRef}
-          role="textbox"
-          tabIndex="0"
-          contentEditable="true"
-          onInput={handleChange}
-        />
-      </TweetInputContainer>
-      <div>
-        {saveTweetData && !saveTweetData.success && saveTweetData.message}
-        {error && error.message}
-      </div>
-      <TweetButtonContainer>
-        <Button primary onClick={handleSave}>
-          {loading ? "Loading!" : isReply ? "Reply" : "Tweet"}
-        </Button>
-      </TweetButtonContainer>
-    </Fragment>
+    <TweetEditorContainer isReply={isReply}>
+      <ProfileImage />
+      <TweetInputAndActionsContainer isReply={isReply}>
+        <TweetInputContainer>
+          <TweetInputPlaceholder>
+            {text.length > 0 ? "" : "What's happening?"}
+          </TweetInputPlaceholder>
+          <TweetInput
+            ref={inputRef}
+            role="textbox"
+            tabIndex="0"
+            contentEditable="true"
+            onInput={handleChange}
+          />
+        </TweetInputContainer>
+        <div>
+          {saveTweetData && !saveTweetData.success && saveTweetData.message}
+          {error && error.message}
+        </div>
+        <TweetButtonContainer>
+          <Button primary onClick={handleSave}>
+            {loading ? "Loading!" : isReply ? "Reply" : "Tweet"}
+          </Button>
+        </TweetButtonContainer>
+      </TweetInputAndActionsContainer>
+    </TweetEditorContainer>
   );
 }

@@ -3,7 +3,7 @@ import colors from "../../data/colors";
 
 const Nav = styled.div`
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
