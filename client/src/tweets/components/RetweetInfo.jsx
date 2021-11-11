@@ -19,7 +19,7 @@ const RetweetIconContainer = styled.div`
 `;
 
 export default function RetweetInfo(props) {
-  const { retweetAuthor } = props;
+  const { retweet } = props;
   const { authContext } = useAuth();
 
   return (
@@ -29,9 +29,9 @@ export default function RetweetInfo(props) {
       </RetweetIconContainer>
       <div>
         <RetweetAuthor>
-          {retweetAuthor === authContext.user.name
+          {retweet.author._id === authContext.user._id
             ? "You "
-            : `${retweetAuthor} `}
+            : `${retweet.author.name} `}
           Retweeted
         </RetweetAuthor>
       </div>

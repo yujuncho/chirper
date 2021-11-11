@@ -1,5 +1,6 @@
 const userController = require("../../user/controllers/userController");
 const tweetController = require("../controllers/tweetController");
+const retweetController = require("../controllers/retweetController");
 
 const tweetResolvers = {
   Query: {
@@ -28,11 +29,14 @@ const tweetResolvers = {
     createTweet: (_, { text }, context) => {
       return tweetController.createTweet(text, context);
     },
-    retweet: (_, { tweetId }, context) => {
-      return tweetController.retweet(tweetId, context);
-    },
     replyToTweet: (_, { tweetId, replyText }, context) => {
       return tweetController.replyToTweet(tweetId, replyText, context);
+    },
+    retweet: (_, { tweetId }, context) => {
+      return retweetController.retweet(tweetId, context);
+    },
+    deleteRetweet: (_, { tweetId }, context) => {
+      return retweetController.deleteRetweet(tweetId, context);
     }
   }
 };

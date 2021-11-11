@@ -18,8 +18,9 @@ const tweetTypeDefs = gql`
 
   extend type Mutation {
     createTweet(text: String!): TweetResponse!
-    retweet(tweetId: ID!): TweetResponse!
     replyToTweet(tweetId: ID!, replyText: String!): TweetResponse!
+    retweet(tweetId: ID!): TweetResponse!
+    deleteRetweet(tweetId: ID!): DeleteRetweetResponse!
   }
 
   type TweetResponse {
@@ -27,6 +28,14 @@ const tweetTypeDefs = gql`
     success: Boolean!
     message: String!
     tweet: Tweet
+  }
+
+  type DeleteRetweetResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    deletedRetweet: Tweet
+    originalTweet: Tweet
   }
 `;
 

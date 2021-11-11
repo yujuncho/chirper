@@ -10,7 +10,8 @@ const ButtonIcon = styled.button`
   font-size: 1rem;
   outline-style: none;
   cursor: pointer;
-  color: ${colors.LIGHT};
+  color: ${props =>
+    props.activeColor ? colors[props.activeColor] : colors.LIGHT};
   background: rgba(0, 0, 0, 0);
 
   &:hover {

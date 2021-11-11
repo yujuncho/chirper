@@ -40,9 +40,23 @@ export default function useApolloClientSetup() {
   let links = [errorLink, authLink, httpLink];
   const link = ApolloLink.from(links);
 
+  const cache = new InMemoryCache({
+    typePolicies: {
+      Tweet: {
+        fields: {
+          retweets: {
+            merge(_, incoming) {
+              return [...incoming];
+            }
+          }
+        }
+      }
+    }
+  });
+
   const client = new ApolloClient({
     link,
-    cache: new InMemoryCache()
+    cache
   });
 
   return client;

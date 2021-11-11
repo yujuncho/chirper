@@ -2,6 +2,7 @@ import { MdRepeat } from "react-icons/md";
 
 import useAuth from "../../shared/hooks/useAuth";
 import useRetweet from "../hooks/useRetweet";
+import useDeleteRetweet from "../hooks/useDeleteRetweet";
 
 import { colorKeys } from "../../shared/data/colors";
 import ButtonIcon from "../../shared/components/ui/ButtonIcon";
@@ -11,19 +12,25 @@ export default function RetweetButton(props) {
   const { authContext } = useAuth();
   const [retweet] = useRetweet({ tweet });
 
-  const handleRetweet = () => {
-    retweet();
-  };
+  const existingRetweet = tweet.retweets.find(
+    t => t.author._id === authContext.user._id
+  );
 
-  const isDisabled = tweet.retweets.find(t => {
-    return t.author._id === authContext.user._id;
-  });
+  const [deleteRetweet] = useDeleteRetweet({ tweet: existingRetweet });
+
+  const handleRetweet = () => {
+    if (existingRetweet) {
+      deleteRetweet();
+    } else {
+      retweet();
+    }
+  };
 
   return (
     <ButtonIcon
       onClick={handleRetweet}
-      disabled={!!isDisabled}
       title="Retweet"
+      activeColor={!!existingRetweet && colorKeys.SUCCESS}
       hover={{
         color: colorKeys.SUCCESS,
         background: colorKeys.SUCCESS_OPAQUE

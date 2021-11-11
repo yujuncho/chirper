@@ -2,6 +2,8 @@ import { Fragment, useState } from "react";
 import { BsChat } from "react-icons/bs";
 import styled from "styled-components";
 
+import useAuth from "../../shared/hooks/useAuth";
+
 import TweetComposer from "./TweetComposer";
 import RetweetButton from "./RetweetButton";
 import RetweetInfo from "./RetweetInfo";
@@ -35,8 +37,9 @@ const ReplyInfo = styled.div`
     return props.replyingToTweet ? "1rem !important" : "0.1rem !important";
   }};
 
-  & span {
-    color: ${colors.PRIMARY};
+  & > span {
+    color: ${props =>
+      props.replyingToSelf ? "rgba(255, 255, 255, 0.6)" : colors.PRIMARY};
   }
 `;
 
@@ -47,8 +50,9 @@ const TweetActions = styled.div`
 `;
 
 export default function Tweet(props) {
-  const { tweet, isRetweet, retweetAuthor, replyingToTweet } = props;
+  const { tweet, retweet, isRetweet, replyingToTweet } = props;
   const [showTweetComposer, setShowTweetComposer] = useState(false);
+  const { authContext } = useAuth();
   const createdAt = new Date(tweet.createdAt).toLocaleString("en-us", {
     month: "short",
     day: "numeric"
@@ -71,7 +75,7 @@ export default function Tweet(props) {
           onClick={closeTweetReplier}
         />
       )}
-      {isRetweet && <RetweetInfo retweetAuthor={retweetAuthor} />}
+      {isRetweet && <RetweetInfo retweet={retweet} />}
       <FlexContainer>
         <ProfileImage />
         <div style={{ flex: "1" }}>
@@ -83,8 +87,20 @@ export default function Tweet(props) {
           </TweetAuthorContainer>
           <TweetBody replyingToTweet={replyingToTweet}>
             {tweet.inReplyToTweet && (
-              <ReplyInfo replyingToTweet={replyingToTweet}>
-                Replying to <span>@{tweet.inReplyToTweet.author.username}</span>
+              <ReplyInfo
+                replyingToTweet={replyingToTweet}
+                replyingToSelf={
+                  authContext.user.username ===
+                  tweet.inReplyToTweet.author.username
+                }
+              >
+                Replying to
+                <span>
+                  {authContext.user.username ===
+                  tweet.inReplyToTweet.author.username
+                    ? " Yourself"
+                    : ` @${tweet.inReplyToTweet.author.username}`}
+                </span>
               </ReplyInfo>
             )}
             <div>{tweet.text}</div>
@@ -101,7 +117,7 @@ export default function Tweet(props) {
               >
                 <BsChat />
               </ButtonIcon>
-              <RetweetButton tweet={tweet} />
+              <RetweetButton existingRetweet={retweet} tweet={tweet} />
             </TweetActions>
           )}
         </div>

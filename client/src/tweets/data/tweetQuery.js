@@ -12,6 +12,7 @@ const GET_TWEETS = gql`
         name
       }
       retweets {
+        _id
         author {
           _id
           username
@@ -28,6 +29,7 @@ const GET_TWEETS = gql`
           name
         }
         retweets {
+          _id
           author {
             _id
             username

@@ -25,8 +25,8 @@ export default function Timeline() {
           <Card key={tweet._id}>
             <Tweet
               tweet={tweet.retweetTweet}
+              retweet={tweet}
               isRetweet={true}
-              retweetAuthor={tweet.author.name}
             />
           </Card>
         );
