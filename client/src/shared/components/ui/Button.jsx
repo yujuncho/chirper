@@ -9,9 +9,10 @@ const Button = styled.button`
   font-size: ${props => (props.small ? "0.75rem" : "1rem")};
   padding: 8px 16px;
   outline-style: none;
-  cursor: pointer;
+  cursor: ${props => (props.isDisabled ? "default" : "pointer")};
   color: ${props => (props.primary ? colors.LIGHT : colors.DARK)};
   background: ${props => (props.primary ? colors.PRIMARY : colors.LIGHT)};
+  opacity: ${props => (props.isDisabled ? "0.5" : "1")};
 `;
 
 export default Button;

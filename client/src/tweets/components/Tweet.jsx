@@ -98,7 +98,7 @@ export default function Tweet(props) {
                 <span>
                   {authContext.user.username ===
                   tweet.inReplyToTweet.author.username
-                    ? " Yourself"
+                    ? " yourself"
                     : ` @${tweet.inReplyToTweet.author.username}`}
                 </span>
               </ReplyInfo>

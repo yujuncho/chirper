@@ -27,7 +27,12 @@ export default function TweetComposer(props) {
       <ModalBody>
         <Tweet tweet={tweet} replyingToTweet={true} />
         <TweetComposerEditorContainer>
-          <TweetEditor inReplyToTweet={tweet} onSave={onSave} isReply={true} />
+          <TweetEditor
+            inReplyToTweet={tweet}
+            onSave={onSave}
+            isReply={true}
+            autoFocus={true}
+          />
         </TweetComposerEditorContainer>
       </ModalBody>
     </Modal>
