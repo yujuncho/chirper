@@ -12,6 +12,11 @@ import Button from "../../shared/components/ui/Button";
 const HomeContainer = styled.div`
   max-width: 600px;
   margin: auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export default function Home() {

@@ -3,6 +3,12 @@ import { useMutation } from "@apollo/client";
 
 import userMutation from "../data/userMutation";
 
+import Input from "../../shared/components/ui/Input";
+import FormControl from "../../shared/components/ui/FormControl";
+import FormActions from "../../shared/components/ui/FormActions";
+import HiddenElement from "../../shared/components/ui/HiddenElement";
+import Button from "../../shared/components/ui/Button";
+
 export default function SignupForm(props) {
   const { onSubmit } = props;
   const [formData, setFormData] = useState({
@@ -43,41 +49,52 @@ export default function SignupForm(props) {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
+      <FormControl>
+        <HiddenElement>
+          <label htmlFor="name">Name</label>
+        </HiddenElement>
+        <Input
           type="text"
           name="name"
+          placeholder="Name"
           value={name}
           onChange={handleInputChange}
           required
         />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
+      </FormControl>
+      <FormControl>
+        <HiddenElement>
+          <label htmlFor="username">Username</label>
+        </HiddenElement>
+        <Input
           type="text"
           name="username"
+          placeholder="Username"
           value={username}
           onChange={handleInputChange}
           required
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
+      </FormControl>
+      <FormControl>
+        <HiddenElement>
+          <label htmlFor="password">Password</label>
+        </HiddenElement>
+        <Input
           type="password"
           name="password"
+          placeholder="Password"
           value={password}
           onChange={handleInputChange}
           required
         />
-      </div>
-      <div>
-        {data && !data.createUser.success && data.createUser.message}
-        {error && error.message}
-      </div>
-      <button type="submit">{loading ? "Loading!" : "Sign up"}</button>
+      </FormControl>
+      <FormActions>
+        <div>
+          {data && !data.createUser.success && data.createUser.message}
+          {error && error.message}
+        </div>
+        <Button type="submit">{loading ? "Loading!" : "Sign up"}</Button>
+      </FormActions>
     </form>
   );
 }

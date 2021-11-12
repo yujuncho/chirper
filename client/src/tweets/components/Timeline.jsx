@@ -8,9 +8,6 @@ import Card from "../../shared/components/layout/Card";
 export default function Timeline() {
   const { loading, error, data } = useQuery(tweetQuery.GET_TWEETS);
 
-  if (loading) return <div>Loading!</div>;
-  if (error) return <div>{error.message}</div>;
-
   let tweetList = [];
   if (data) {
     tweetList = data.tweets.map(tweet => {
@@ -34,5 +31,7 @@ export default function Timeline() {
     });
   }
 
+  if (loading) return <CardList>Loading!</CardList>;
+  if (error) return <CardList>{error.message}</CardList>;
   return <CardList>{tweetList}</CardList>;
 }
