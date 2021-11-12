@@ -28,6 +28,12 @@ export default function TweetEditorInput(props) {
     }
   }, [autoFocus, inputRef]);
 
+  useEffect(() => {
+    if (text.length === 0) {
+      inputRef.current.innerText = "";
+    }
+  }, [text, inputRef]);
+
   const handleChange = event => {
     const innerText = event.currentTarget.innerText;
     const newText = innerText === "\n" ? "" : innerText;

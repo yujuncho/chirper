@@ -19,6 +19,10 @@ const HomeContainer = styled.div`
   flex: 1;
 `;
 
+const HomeContent = styled.div`
+  margin-top: 70px;
+`;
+
 export default function Home() {
   const { authContext } = useAuth();
   const apolloClient = useApolloClient();
@@ -36,10 +40,12 @@ export default function Home() {
           Sign Out
         </Button>
       </Nav>
-      <Card>
-        <TweetEditor />
-      </Card>
-      <Timeline />
+      <HomeContent>
+        <Card>
+          <TweetEditor />
+        </Card>
+        <Timeline />
+      </HomeContent>
     </HomeContainer>
   );
 }

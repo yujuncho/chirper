@@ -15,16 +15,31 @@ const ModalBackdrop = styled.div`
   background-color: ${colors.LIGHT_OPAQUE};
   display: flex;
   justify-content: center;
+  box-sizing: border-box;
 `;
 
 const ModalContainer = styled.div`
-  position: fixed;
-  top: 5vh;
+  position: absolute;
+  top: 0;
   width: 100%;
-  max-width: 600px;
+  height: 100%;
   background-color: ${colors.DARK};
   border-radius: 14px;
   z-index: 30;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    top: 5vh;
+    width: 100%;
+    max-width: 600px;
+    height: initial;
+    max-width: 600px;
+    background-color: ${colors.DARK};
+    border-radius: 14px;
+    z-index: 30;
+    box-sizing: border-box;
+  }
 `;
 
 export default function Modal({ children }) {

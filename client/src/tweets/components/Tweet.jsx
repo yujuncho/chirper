@@ -3,6 +3,7 @@ import { BsChat } from "react-icons/bs";
 import styled from "styled-components";
 
 import useAuth from "../../shared/hooks/useAuth";
+import useTime from "../../shared/hooks/useTime";
 
 import TweetComposer from "./TweetComposer";
 import RetweetButton from "./RetweetButton";
@@ -53,10 +54,8 @@ export default function Tweet(props) {
   const { tweet, retweet, isRetweet, replyingToTweet } = props;
   const [showTweetComposer, setShowTweetComposer] = useState(false);
   const { authContext } = useAuth();
-  const createdAt = new Date(tweet.createdAt).toLocaleString("en-us", {
-    month: "short",
-    day: "numeric"
-  });
+  const { showElapsedTime } = useTime();
+  const createdAt = showElapsedTime(tweet.createdAt);
 
   const handleReply = () => {
     setShowTweetComposer(true);

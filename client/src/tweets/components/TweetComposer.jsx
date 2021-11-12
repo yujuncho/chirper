@@ -1,4 +1,5 @@
 import { AiOutlineClose } from "react-icons/ai";
+import { BsArrowLeft } from "react-icons/bs";
 import styled from "styled-components";
 
 import Modal from "../../shared/components/layout/Modal";
@@ -14,15 +15,41 @@ const TweetComposerEditorContainer = styled.div`
   min-height: 150px;
 `;
 
+const TweetComposerHeaderLargeScreens = styled.div`
+  @media (max-width: 768px) {
+    & ${ButtonIcon} {
+      display: none;
+    }
+  }
+`;
+
+const TweetComposerHeaderSmallScreens = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  @media (min-width: 768px) {
+    & ${ButtonIcon} {
+      display: none;
+    }
+  }
+`;
+
 export default function TweetComposer(props) {
   const { tweet, onSave, onClick } = props;
 
   return (
     <Modal>
       <ModalHeader>
-        <ButtonIcon onClick={onClick} title="Close">
-          <AiOutlineClose />
-        </ButtonIcon>
+        <TweetComposerHeaderLargeScreens>
+          <ButtonIcon onClick={onClick} title="Close">
+            <AiOutlineClose />
+          </ButtonIcon>
+        </TweetComposerHeaderLargeScreens>
+        <TweetComposerHeaderSmallScreens>
+          <ButtonIcon onClick={onClick} title="Back">
+            <BsArrowLeft />
+          </ButtonIcon>
+        </TweetComposerHeaderSmallScreens>
       </ModalHeader>
       <ModalBody>
         <Tweet tweet={tweet} replyingToTweet={true} />

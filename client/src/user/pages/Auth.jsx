@@ -18,8 +18,12 @@ const AuthContainer = styled.div`
 `;
 
 const LogoEnlarged = styled.div`
-  flex: 1;
-  background: ${colors.PRIMARY};
+  flex: 0;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    background: ${colors.PRIMARY};
+  }
 `;
 
 const AuthContentContainer = styled.div`
@@ -28,10 +32,19 @@ const AuthContentContainer = styled.div`
   padding: 16px;
   min-width: 45vw;
   box-sizing: border-box;
+  width: 100%;
+
+  @media (min-width: 576px) {
+    width: initial;
+  }
 `;
 
 const AuthFormContainer = styled.div`
-  max-width: 400px;
+  max-width: 100%;
+
+  @media (min-width: 576px) {
+    max-width: 400px;
+  }
 `;
 
 const AuthSwitchContainer = styled.div`
@@ -42,17 +55,17 @@ const AuthContent = styled.div`
   flex-shrink: 0;
   max-width: 760px;
   width: 100%;
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
 
   & > h1 {
-    font-size: 4rem;
+    font-size: 2.5rem;
     font-weight: 900;
-    margin: 3rem 0;
+    margin: 2rem 0;
   }
 
   & > h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   & > form {
@@ -60,13 +73,57 @@ const AuthContent = styled.div`
   }
 
   & > ${AuthFormContainer} {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   & > div > span {
     margin-left: 0.3rem;
     color: ${colors.PRIMARY};
     cursor: pointer;
+  }
+
+  @media (min-width: 576px) {
+    padding: 10px;
+
+    & > h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin: 2.5rem 0;
+    }
+
+    & > h2 {
+      font-size: 2rem;
+    }
+
+    & > form {
+      margin-bottom: 1rem;
+    }
+
+    & > ${AuthFormContainer} {
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    padding: 20px;
+
+    & > h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      margin: 3rem 0;
+    }
+
+    & > h2 {
+      font-size: 2rem;
+    }
+
+    & > form {
+      margin-bottom: 1rem;
+    }
+
+    & > ${AuthFormContainer} {
+      margin-bottom: 3rem;
+    }
   }
 `;
 
