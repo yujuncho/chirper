@@ -8,6 +8,10 @@ import FormControl from "../../shared/components/ui/FormControl";
 import FormActions from "../../shared/components/ui/FormActions";
 import HiddenElement from "../../shared/components/ui/HiddenElement";
 import Button from "../../shared/components/ui/Button";
+import LoadingSpinner from "../../shared/components/ui/LoadingSpinner";
+
+import Callout from "../../shared/components/layout/Callout";
+import { colorKeys } from "../../shared/data/colors";
 
 export default function LoginForm(props) {
   const { onSubmit } = props;
@@ -74,12 +78,16 @@ export default function LoginForm(props) {
           required
         />
       </FormControl>
-      <FormActions>
-        <div>
+      {((data && !data.loginUser.success) || error) && (
+        <Callout color={colorKeys.DANGER_OPAQUE}>
           {data && !data.loginUser.success && data.loginUser.message}
           {error && error.message}
-        </div>
-        <Button type="submit">{loading ? "Loading!" : "Sign in"}</Button>
+        </Callout>
+      )}
+      <FormActions>
+        <Button type="submit">
+          {loading ? <LoadingSpinner small={true} /> : "Sign in"}
+        </Button>
       </FormActions>
     </form>
   );

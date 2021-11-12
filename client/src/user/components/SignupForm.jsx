@@ -8,6 +8,10 @@ import FormControl from "../../shared/components/ui/FormControl";
 import FormActions from "../../shared/components/ui/FormActions";
 import HiddenElement from "../../shared/components/ui/HiddenElement";
 import Button from "../../shared/components/ui/Button";
+import LoadingSpinner from "../../shared/components/ui/LoadingSpinner";
+
+import Callout from "../../shared/components/layout/Callout";
+import { colorKeys } from "../../shared/data/colors";
 
 export default function SignupForm(props) {
   const { onSubmit } = props;
@@ -88,12 +92,16 @@ export default function SignupForm(props) {
           required
         />
       </FormControl>
-      <FormActions>
-        <div>
+      {((data && !data.createUser.success) || error) && (
+        <Callout color={colorKeys.DANGER_OPAQUE}>
           {data && !data.createUser.success && data.createUser.message}
           {error && error.message}
-        </div>
-        <Button type="submit">{loading ? "Loading!" : "Sign up"}</Button>
+        </Callout>
+      )}
+      <FormActions>
+        <Button type="submit">
+          {loading ? <LoadingSpinner small={true} /> : "Sign up"}
+        </Button>
       </FormActions>
     </form>
   );
