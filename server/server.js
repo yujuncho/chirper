@@ -8,8 +8,7 @@ const { typeDefs, resolvers } = require("./graphql/schema");
 const authContext = require("./graphql/authContext");
 
 async function startMongoDB() {
-  const server = process.env.SERVER || "localhost";
-  const database = process.env.DATABASE || "twitter-clone";
+  const dbUri = process.env.DB_URI || "mongodb://localhost:27017/twitter-clone";
 
   mongoose.connection.once("open", () =>
     console.log("🗃️  Connected to a MongoDB instance")
@@ -17,11 +16,11 @@ async function startMongoDB() {
   mongoose.connection.on("error", error => console.error(error));
 
   try {
-    await mongoose.connect(`mongodb://${server}/${database}`, {
+    await mongoose.connect(dbUri, {
       useNewUrlParser: true
     });
   } catch (error) {
-    console.log("Failed to connect to MongoDB", err);
+    console.log("Failed to connect to MongoDB", error);
   }
 }
 
