@@ -66,6 +66,7 @@ const AuthContent = styled.div`
   & > div > span {
     margin-left: 0.3rem;
     color: ${colors.PRIMARY};
+    cursor: pointer;
   }
 `;
 

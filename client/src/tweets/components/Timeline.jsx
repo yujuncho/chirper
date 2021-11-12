@@ -4,6 +4,7 @@ import Tweet from "./Tweet";
 
 import CardList from "../../shared/components/layout/CardList";
 import Card from "../../shared/components/layout/Card";
+import LoadingSpinner from "../../shared/components/ui/LoadingSpinner";
 
 export default function Timeline() {
   const { loading, error, data } = useQuery(tweetQuery.GET_TWEETS);
@@ -31,7 +32,12 @@ export default function Timeline() {
     });
   }
 
-  if (loading) return <CardList>Loading!</CardList>;
+  if (loading)
+    return (
+      <CardList>
+        <LoadingSpinner style={{ marginTop: "1rem" }} />
+      </CardList>
+    );
   if (error) return <CardList>{error.message}</CardList>;
   return <CardList>{tweetList}</CardList>;
 }
