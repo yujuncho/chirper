@@ -4,8 +4,11 @@ import styled from "styled-components";
 import useSaveTweet from "../hooks/useSaveTweet";
 
 import ProfileImage from "./ProfileImage";
-import Button from "../../shared/components/ui/Button";
 import TweetEditorInput from "./TweetEditorInput";
+import Button from "../../shared/components/ui/Button";
+import LoadingSpinner from "../../shared/components/ui/LoadingSpinner";
+import Callout from "../../shared/components/layout/Callout";
+import colors, { colorKeys } from "../../shared/data/colors";
 
 const TweetButtonContainer = styled.div`
   margin-top: 1.5rem;
@@ -63,17 +66,25 @@ export default function TweetEditor(props) {
           onChange={handleInputChange}
           autoFocus={autoFocus}
         />
-        <div>
-          {saveTweetData && !saveTweetData.success && saveTweetData.message}
-          {error && error.message}
-        </div>
+        {((saveTweetData && !saveTweetData.success) || error) && (
+          <Callout color={colorKeys.DANGER_OPAQUE}>
+            {saveTweetData && !saveTweetData.success && saveTweetData.message}
+            {error && error.message}
+          </Callout>
+        )}
         <TweetButtonContainer>
           <Button
             primary={true}
             onClick={handleSave}
             isDisabled={text.length === 0}
           >
-            {loading ? "Loading!" : isReply ? "Reply" : "Tweet"}
+            {loading ? (
+              <LoadingSpinner small={true} color={colors.LIGHT} />
+            ) : isReply ? (
+              "Reply"
+            ) : (
+              "Tweet"
+            )}
           </Button>
         </TweetButtonContainer>
       </TweetInputAndActionsContainer>

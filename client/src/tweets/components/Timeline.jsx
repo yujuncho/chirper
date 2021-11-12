@@ -5,13 +5,15 @@ import Tweet from "./Tweet";
 import CardList from "../../shared/components/layout/CardList";
 import Card from "../../shared/components/layout/Card";
 import LoadingSpinner from "../../shared/components/ui/LoadingSpinner";
+import Callout from "../../shared/components/layout/Callout";
+import { colorKeys } from "../../shared/data/colors";
 
 export default function Timeline() {
-  const { loading, error, data } = useQuery(tweetQuery.GET_TWEETS);
+  let { loading, error, data } = useQuery(tweetQuery.GET_TWEETS);
+  let content = [];
 
-  let tweetList = [];
   if (data) {
-    tweetList = data.tweets.map(tweet => {
+    content = data.tweets.map(tweet => {
       if (tweet.text !== null) {
         return (
           <Card key={tweet._id}>
@@ -32,12 +34,27 @@ export default function Timeline() {
     });
   }
 
-  if (loading)
-    return (
-      <CardList>
-        <LoadingSpinner style={{ marginTop: "1rem" }} />
-      </CardList>
+  if (loading) {
+    content = <LoadingSpinner style={{ padding: "1rem 0" }} />;
+  }
+
+  if (error) {
+    content = (
+      <Callout
+        color={colorKeys.DANGER_OPAQUE}
+        style={{
+          maxWidth: "200px",
+          margin: "auto",
+          position: "absolute",
+          width: "100%",
+          left: "calc(50% - 100px)",
+          bottom: "1.5rem"
+        }}
+      >
+        Error: {error.message}
+      </Callout>
     );
-  if (error) return <CardList>{error.message}</CardList>;
-  return <CardList>{tweetList}</CardList>;
+  }
+
+  return <CardList>{content}</CardList>;
 }

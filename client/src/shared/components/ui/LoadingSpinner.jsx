@@ -14,13 +14,16 @@ const Spinner = styled.div`
     width: ${props => (props.small ? "16px" : "32px")};
     height: ${props => (props.small ? "16px" : "32px")};
     margin: ${props => (props.small ? "2px" : "8px")};
-    border: ${props =>
-      props.small
-        ? `2px solid ${colors.PRIMARY}`
-        : `8px solid ${colors.PRIMARY}`};
+    border: ${props => {
+      const color = props.color ? props.color : colors.PRIMARY;
+      return props.small ? `2px solid ${color}` : `4px solid ${color}`;
+    }};
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: ${colors.PRIMARY} transparent transparent transparent;
+    border-color: ${props => {
+      const color = props.color ? props.color : colors.PRIMARY;
+      return `${color} transparent transparent transparent`;
+    }};
   }
 
   & div:nth-child(1) {
@@ -52,10 +55,10 @@ const SpinnerContainer = styled.div`
 `;
 
 export default function LoadingSpinner(props) {
-  const { style, small } = props;
+  const { style, small, color } = props;
   return (
     <SpinnerContainer style={style}>
-      <Spinner small={small}>
+      <Spinner small={small} color={color}>
         <div></div>
         <div></div>
         <div></div>

@@ -21,6 +21,9 @@ const HomeContainer = styled.div`
 
 const HomeContent = styled.div`
   margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export default function Home() {
