@@ -32,7 +32,7 @@ export default function RetweetInfo(props) {
           {retweet.author._id === authContext.user._id
             ? "You "
             : `${retweet.author.name} `}
-          Retweeted
+          Rechirped
         </RetweetAuthor>
       </div>
     </FlexContainer>
