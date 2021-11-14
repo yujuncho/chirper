@@ -2,7 +2,6 @@ import { Fragment, useState } from "react";
 import { BsChat } from "react-icons/bs";
 import styled from "styled-components";
 
-import useAuth from "../../shared/hooks/useAuth";
 import useTime from "../../shared/hooks/useTime";
 
 import TweetComposer from "./TweetComposer";
@@ -39,8 +38,7 @@ const ReplyInfo = styled.div`
   }};
 
   & > span {
-    color: ${props =>
-      props.replyingToSelf ? "rgba(255, 255, 255, 0.6)" : colors.PRIMARY};
+    color: ${colors.PRIMARY};
   }
 `;
 
@@ -53,7 +51,6 @@ const TweetActions = styled.div`
 export default function Tweet(props) {
   const { tweet, retweet, isRetweet, replyingToTweet } = props;
   const [showTweetComposer, setShowTweetComposer] = useState(false);
-  const { authContext } = useAuth();
   const { showElapsedTime } = useTime();
   const createdAt = showElapsedTime(tweet.createdAt);
 
@@ -86,20 +83,8 @@ export default function Tweet(props) {
           </TweetAuthorContainer>
           <TweetBody replyingToTweet={replyingToTweet}>
             {tweet.inReplyToTweet && (
-              <ReplyInfo
-                replyingToTweet={replyingToTweet}
-                replyingToSelf={
-                  authContext.user.username ===
-                  tweet.inReplyToTweet.author.username
-                }
-              >
-                Replying to
-                <span>
-                  {authContext.user.username ===
-                  tweet.inReplyToTweet.author.username
-                    ? " yourself"
-                    : ` @${tweet.inReplyToTweet.author.username}`}
-                </span>
+              <ReplyInfo replyingToTweet={replyingToTweet}>
+                Replying to <span>@{tweet.inReplyToTweet.author.username}</span>
               </ReplyInfo>
             )}
             <div>{tweet.text}</div>

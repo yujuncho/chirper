@@ -80,10 +80,8 @@ export default function TweetEditor(props) {
           >
             {loading ? (
               <LoadingSpinner small={true} color={colors.LIGHT} />
-            ) : isReply ? (
-              "Reply"
             ) : (
-              "Tweet"
+              "Chirp"
             )}
           </Button>
         </TweetButtonContainer>

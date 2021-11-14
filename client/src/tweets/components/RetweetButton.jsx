@@ -29,7 +29,7 @@ export default function RetweetButton(props) {
   return (
     <ButtonIcon
       onClick={handleRetweet}
-      title="Retweet"
+      title="Rechirp"
       activeColor={!!existingRetweet && colorKeys.SUCCESS}
       hover={{
         color: colorKeys.SUCCESS,
